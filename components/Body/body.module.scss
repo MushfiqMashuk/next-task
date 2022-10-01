@@ -1,11 +1,10 @@
 .container {
-  background-color: aqua;
-  border: 1px solid black;
   padding: 0 10rem;
 
   .head {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 3rem;
 
     .search_bar {
       width: 90%;
@@ -16,5 +15,12 @@
       padding: 0.6rem 2rem;
       cursor: pointer;
     }
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem 0.5rem;
+    flex-wrap: wrap;
   }
 }
