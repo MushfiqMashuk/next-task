@@ -1,0 +1,20 @@
+.container {
+  background-color: aqua;
+  border: 1px solid black;
+  padding: 0 10rem;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+
+    .search_bar {
+      width: 90%;
+      padding: 0.6rem 1rem;
+    }
+
+    .add_button {
+      padding: 0.6rem 2rem;
+      cursor: pointer;
+    }
+  }
+}

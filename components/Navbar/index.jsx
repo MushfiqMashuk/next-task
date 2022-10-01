@@ -4,7 +4,7 @@ import styles from "./navbar.module.scss";
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <PageTitle>YelloPages</PageTitle>
+      <PageTitle>YellowPages</PageTitle>
     </div>
   );
 };
