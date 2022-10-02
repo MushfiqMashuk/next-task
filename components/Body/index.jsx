@@ -1,3 +1,4 @@
+import Modal from "../Modal";
 import UserCard from "../UserCard";
 import styles from "./body.module.scss";
 
@@ -9,6 +10,7 @@ const Body = () => {
         <button className={styles.add_button}>Add</button>
       </div>
       <div className={styles.content}>
+        <Modal/>
         <UserCard
           user={{
             name: "Mash",
@@ -47,8 +49,8 @@ const Body = () => {
         <UserCard
           user={{
             name: "Mash",
-            email: "thisismfgfdgdfgfgfgdail@gmail.com",
-            phone: "+880162ffdgfdfgdfgdfgdfgfhfghfgggggggggggggggggggfhggfhhhhhhhhhhhhhhhhhhhhhdgdfgdffghfhfhgdfg5347586 dfdgdggggggg",
+            email: "thisismail@gmail.com",
+            phone: "+8801625347586",
           }}
         />
         <UserCard
@@ -68,6 +70,6 @@ const Body = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Body
+export default Body;

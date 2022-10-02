@@ -1,0 +1,9 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.title {
+  @include center_element;
+  margin: $modal_title_margin;
+  color: $modal_title_color;
+  font-size: $modal_title_font;
+}

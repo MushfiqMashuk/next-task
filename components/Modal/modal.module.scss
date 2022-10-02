@@ -1,0 +1,102 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.overflow_hidden {
+  overflow: hidden;
+  width: calc(100% - 17px); //for chrome/safari
+  width: -moz-calc(100% - 16px); //for firefox
+  width: -ms-calc(
+    100% - XXpx
+  ); // where "XX" equals the width of the scrollbar in IE)
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  @include center_element;
+  background-color: $modal_overlay_color;
+
+  .modal_content {
+    position: relative;
+    background-color: antiquewhite;
+    min-height: 60vh;
+    width: 25vw;
+    border-radius: 5px;
+    color: white;
+
+    scale: 0.8;
+    opacity: 0;
+    -moz-animation: cssAnimation 0.2s 0.2s;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0.2s 0.2s;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0.2s 0.2s;
+    /* Opera */
+    animation: cssAnimation 0.2s 0.2s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+
+    @keyframes cssAnimation {
+      to {
+        scale: 1;
+        opacity: 1;
+      }
+    }
+    @-webkit-keyframes cssAnimation {
+      to {
+        scale: 1;
+        opacity: 1;
+      }
+    }
+
+    // Now the inner layout design of the modal container
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .modal_body {
+      padding: 1rem;
+
+      width: 100%;
+    }
+
+    .close_button_container {
+      height: 3rem;
+      width: 3rem;
+      position: absolute;
+      right: 0;
+      top: -2.9rem;
+
+      z-index: 2;
+      @include center_element;
+
+      cursor: pointer;
+      border: none;
+      font-size: 2rem;
+      line-height: 0;
+      margin: 0;
+      border-radius: 50%;
+
+      &:hover {
+        background-color: #98989899;
+      }
+
+      &:active {
+        background-color: #b3b3b3fe;
+      }
+
+      .close_button {
+        position: absolute;
+        top: 1.25rem;
+        font-size: 2.5rem;
+        font-weight: 300;
+      }
+    }
+  }
+}
