@@ -1,66 +1,109 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { emailRegEx, phoneRegEx } from "../../helpers/regex";
+import styles from "./form.module.scss";
 
 const Form = () => {
-  const [formData, setFormData] = useState({
-    name: null,
-    email: null,
-    phone: null,
+  const defaultFormData = {
+    name: "",
+    email: "",
+    phone: "",
     emailError: null,
     phoneError: null,
-  });
+  };
 
-  const nameRef = useRef();
-  const emailRef = useRef();
-  const phoneRef = useRef();
+  const [formData, setFormData] = useState(defaultFormData);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(emailRef.current.value);
-    console.log(phoneRef.current.value);
+
+    if (validate()) {
+      // submit the form
+
+      // set the state to it's default state
+
+      // close the modal
+      console.log("nice");
+      setFormData(defaultFormData);
+    }
+  };
+
+  const validate = () => {
+    let emailError = null;
+    let phoneError = null;
+
+    if (!formData.email || emailRegEx.test(formData.email) === false) {
+      emailError = "Invalid Email Address";
+    }
+    if (!formData.phone || phoneRegEx.test(formData.phone) === false) {
+      phoneError = "Invalid Phone Number";
+    }
+
+    if (emailError || phoneError) {
+      setFormData((prev) => ({ ...prev, emailError, phoneError }));
+      return false;
+    }
+    return true;
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <br />
+        <p className={styles.form_label}>Name</p>
+
         <input
           type="text"
-          id="name"
           name="name"
           placeholder="Full Name"
           required
-          ref={nameRef}
+          className={styles.input_fields}
+          onChange={handleChange}
+          value={formData.name}
         />
         <br />
-        <label htmlFor="email">E-mail</label>
-        <br />
+        <p className={styles.form_label}>E-mail</p>
+
         <input
           type="email"
-          id="email"
           name="email"
           placeholder="E-mail"
           required
-          ref={emailRef}
+          className={styles.input_fields}
+          onChange={handleChange}
+          value={formData.email}
         />
         <br />
-        <p>Error message</p>
-        <label htmlFor="phone">Phone</label>
-        <br />
+        {formData.emailError && (
+          <p className={styles.error_message}>{formData.emailError}</p>
+        )}
+        <p className={styles.form_label}>Phone</p>
+
         <input
           type="tel"
-          id="phone"
           name="phone"
           placeholder="Phone Number"
           required
-          ref={phoneRef}
+          className={styles.input_fields}
+          onChange={handleChange}
+          value={formData.phone}
         />
         <br />
-        <p>Error message</p>
+        {formData.phoneError && (
+          <p className={styles.error_message}>{formData.phoneError}</p>
+        )}
         <br />
-        <div>
-          <button>Cancel</button>
-          <input type="submit" value="Add" />
+        <div className={styles.button_container}>
+          <button className={styles.cancel_button}>Cancel</button>
+          <input type="submit" value="Add" className={styles.add_button} />
         </div>
       </form>
     </div>
