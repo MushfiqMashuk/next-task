@@ -47,8 +47,8 @@ const Body = () => {
         <UserCard
           user={{
             name: "Mash",
-            email: "thisismail@gmail.com",
-            phone: "+8801625347586",
+            email: "thisismfgfdgdfgfgfgdail@gmail.com",
+            phone: "+880162ffdgfdfgdfgdfgdfgfhfghfgggggggggggggggggggfhggfhhhhhhhhhhhhhhhhhhhhhdgdfgdffghfhfhgdfg5347586 dfdgdggggggg",
           }}
         />
         <UserCard
