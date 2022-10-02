@@ -1,3 +1,4 @@
+import Form from "../Form";
 import Modal from "../Modal";
 import UserCard from "../UserCard";
 import styles from "./body.module.scss";
@@ -10,7 +11,9 @@ const Body = () => {
         <button className={styles.add_button}>Add</button>
       </div>
       <div className={styles.content}>
-        <Modal/>
+        <Modal>
+          <Form/>
+        </Modal>
         <UserCard
           user={{
             name: "Mash",
