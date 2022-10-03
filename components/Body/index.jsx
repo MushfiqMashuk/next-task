@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import debounce from "../../helpers/debounce";
 import Form from "../Form";
 import Modal from "../Modal";
 import UserCard from "../UserCard";
@@ -9,18 +10,6 @@ const Body = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState(users);
-
-  const debounce = (func) => {
-    let timer;
-    return function (...args) {
-      const context = this;
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = null;
-        func.apply(context, args);
-      }, 80);
-    };
-  };
 
   const handleChange = (value) => {
     setSearchValue(value);
