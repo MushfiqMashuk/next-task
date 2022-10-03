@@ -32,7 +32,7 @@ const Form = () => {
       // set the state to it's default state
 
       // close the modal
-      console.log("nice");
+      
       setFormData(defaultFormData);
     }
   };
