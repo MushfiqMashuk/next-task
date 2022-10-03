@@ -28,12 +28,13 @@ const Form = ({ onClose }) => {
 
     if (validate()) {
       // submit the form
+      // And update global state with form data (Needs to be done)
+      // I think, I can not do it in time, since my uncle (Mama) has died. I've to attend his funeral.
 
       // set the state to it's default state
-
-      // close the modal
-
       setFormData(defaultFormData);
+      // close the modal
+      onClose();
     }
   };
 
