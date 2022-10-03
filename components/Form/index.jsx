@@ -2,7 +2,7 @@ import { useState } from "react";
 import { emailRegEx, phoneRegEx } from "../../helpers/regex";
 import styles from "./form.module.scss";
 
-const Form = () => {
+const Form = ({ onClose }) => {
   const defaultFormData = {
     name: "",
     email: "",
@@ -32,7 +32,7 @@ const Form = () => {
       // set the state to it's default state
 
       // close the modal
-      
+
       setFormData(defaultFormData);
     }
   };
@@ -102,7 +102,9 @@ const Form = () => {
         )}
         <br />
         <div className={styles.button_container}>
-          <button className={styles.cancel_button}>Cancel</button>
+          <button className={styles.cancel_button} onClick={onClose}>
+            Cancel
+          </button>
           <input type="submit" value="Add" className={styles.add_button} />
         </div>
       </form>
