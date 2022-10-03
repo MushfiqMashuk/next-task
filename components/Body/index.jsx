@@ -18,13 +18,23 @@ const Body = () => {
       timer = setTimeout(() => {
         timer = null;
         func.apply(context, args);
-      }, 500);
+      }, 80);
     };
   };
 
   const handleChange = (value) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    setFilteredUsers(
+      users?.filter(
+        (user) =>
+          user?.name?.toLowerCase().includes(searchValue) ||
+          user?.email?.toLowerCase().includes(searchValue)
+      )
+    );
+  }, [searchValue]);
 
   const optimizedFn = useCallback(debounce(handleChange), []);
 
@@ -64,17 +74,31 @@ const Body = () => {
             <Form onClose={() => setShowModal(false)} />
           </Modal>
         )}
-        {users &&
-          users.map((user) => (
-            <UserCard
-              user={{
-                name: user.name,
-                email: user.email,
-                phone: user.phone,
-              }}
-              key={user.id}
-            />
-          ))}
+        {searchValue
+          ? filteredUsers &&
+            filteredUsers.length > 0 &&
+            filteredUsers.map((user) => (
+              <UserCard
+                user={{
+                  name: user.name,
+                  email: user.email,
+                  phone: user.phone,
+                }}
+                key={user.id}
+              />
+            ))
+          : users &&
+            users.length > 0 &&
+            users.map((user) => (
+              <UserCard
+                user={{
+                  name: user.name,
+                  email: user.email,
+                  phone: user.phone,
+                }}
+                key={user.id}
+              />
+            ))}
       </div>
     </div>
   );
