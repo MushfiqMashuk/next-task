@@ -14,20 +14,14 @@ const Body = () => {
     state.setUsers,
   ]);
 
-  const [users, setUsers] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
-  const [filteredUsers, setFilteredUsers] = useState(users);
+  const [filteredUsers, setFilteredUsers] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (value) => {
     setSearchValue(value);
   };
-
-  // Whenever our global state changes, we change our local state
-  useEffect(() => {
-    setUsers(globalUsers);
-  }, [globalUsers]);
 
   useEffect(() => {
     // Fetching users data
@@ -35,11 +29,10 @@ const Body = () => {
       try {
         setLoading(true);
         const userData = await axios.get(process.env.NEXT_PUBLIC_USERS_API);
-
         const data = await userData?.data;
-        // set the user state
+
+        // set the global user state
         setGlobalUsers(data);
-        setUsers(data);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -53,7 +46,7 @@ const Body = () => {
   useEffect(() => {
     setLoading(true);
     setFilteredUsers(
-      users?.filter(
+      globalUsers?.filter(
         (user) =>
           user?.name?.toLowerCase().includes(searchValue) ||
           user?.email?.toLowerCase().includes(searchValue)
@@ -101,16 +94,16 @@ const Body = () => {
               />
             ))
           : !loading &&
-            users &&
-            users.length > 0 &&
-            users.map((user) => (
+            globalUsers &&
+            globalUsers.length > 0 &&
+            globalUsers.map((user) => (
               <UserCard
                 user={{
                   name: user.name,
                   email: user.email,
                   phone: user.phone,
                 }}
-                key={user.id}
+                key={user.id ? user.id : Math.random(Date.now())}
               />
             ))}
       </div>
