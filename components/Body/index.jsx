@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import debounce from "../../helpers/debounce";
 import useUsers from "../../store/useUsers";
 import Form from "../Form";
+import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../Modal";
 import UserCard from "../UserCard";
 import styles from "./body.module.scss";
@@ -22,27 +23,29 @@ const Body = () => {
     setSearchValue(value);
   };
 
+  // Whenever our global state changes, we change our local state
   useEffect(() => {
     setUsers(globalUsers);
   }, [globalUsers]);
 
   useEffect(() => {
+    // Fetching users data
     const fetchUser = async () => {
       setLoading(true);
       const data = await fetch(process.env.NEXT_PUBLIC_USERS_API);
-
       const userData = await data.json();
 
       // set the user state
       setGlobalUsers(userData);
       setUsers(userData);
+
       setLoading(false);
     };
 
-    // fetching users data from the provided url
     fetchUser();
   }, []);
 
+  // Whenever user types something in the search box
   useEffect(() => {
     setLoading(true);
     setFilteredUsers(
@@ -64,7 +67,7 @@ const Body = () => {
           type="text"
           placeholder="search"
           className={styles.search_bar}
-          onChange={(e) => optimizedFn(e.target.value)}
+          onKeyUp={(e) => optimizedFn(e.target.value)}
         />
         <button
           className={styles.add_button}
@@ -74,7 +77,7 @@ const Body = () => {
         </button>
       </div>
       <div className={styles.content}>
-        {loading && <div>Loading...</div>}
+        {loading && <LoadingSpinner />}
         {showModal && (
           <Modal title="Add new member" onClose={() => setShowModal(false)}>
             <Form onClose={() => setShowModal(false)} />

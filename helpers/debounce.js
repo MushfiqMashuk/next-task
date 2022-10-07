@@ -6,7 +6,7 @@ const debounce = (func) => {
     timer = setTimeout(() => {
       timer = null;
       func.apply(context, args);
-    }, 100);
+    }, 500);
   };
 };
 
