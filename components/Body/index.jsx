@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import debounce from "../../helpers/debounce";
 import useUsers from "../../store/useUsers";
@@ -31,15 +32,18 @@ const Body = () => {
   useEffect(() => {
     // Fetching users data
     const fetchUser = async () => {
-      setLoading(true);
-      const data = await fetch(process.env.NEXT_PUBLIC_USERS_API);
-      const userData = await data.json();
+      try {
+        setLoading(true);
+        const userData = await axios.get(process.env.NEXT_PUBLIC_USERS_API);
 
-      // set the user state
-      setGlobalUsers(userData);
-      setUsers(userData);
-
-      setLoading(false);
+        const data = await userData?.data;
+        // set the user state
+        setGlobalUsers(data);
+        setUsers(data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchUser();
@@ -93,7 +97,7 @@ const Body = () => {
                   email: user.email,
                   phone: user.phone,
                 }}
-                key={user.id}
+                key={user.id ? user.id : Math.random(Date.now())}
               />
             ))
           : !loading &&
