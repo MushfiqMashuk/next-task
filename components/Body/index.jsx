@@ -16,6 +16,7 @@ const Body = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState(users);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (value) => {
     setSearchValue(value);
@@ -27,6 +28,7 @@ const Body = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       const data = await fetch(process.env.NEXT_PUBLIC_USERS_API);
 
       const userData = await data.json();
@@ -34,6 +36,7 @@ const Body = () => {
       // set the user state
       setGlobalUsers(userData);
       setUsers(userData);
+      setLoading(false);
     };
 
     // fetching users data from the provided url
@@ -41,6 +44,7 @@ const Body = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     setFilteredUsers(
       users?.filter(
         (user) =>
@@ -48,6 +52,7 @@ const Body = () => {
           user?.email?.toLowerCase().includes(searchValue)
       )
     );
+    setLoading(false);
   }, [searchValue]);
 
   const optimizedFn = useCallback(debounce(handleChange), []);
@@ -69,12 +74,13 @@ const Body = () => {
         </button>
       </div>
       <div className={styles.content}>
+        {loading && <div>Loading...</div>}
         {showModal && (
           <Modal title="Add new member" onClose={() => setShowModal(false)}>
             <Form onClose={() => setShowModal(false)} />
           </Modal>
         )}
-        {searchValue
+        {!loading && searchValue
           ? filteredUsers &&
             filteredUsers.length > 0 &&
             filteredUsers.map((user) => (
@@ -87,7 +93,8 @@ const Body = () => {
                 key={user.id}
               />
             ))
-          : users &&
+          : !loading &&
+            users &&
             users.length > 0 &&
             users.map((user) => (
               <UserCard
