@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { emailRegEx, phoneRegEx } from "../../helpers/regex";
+import useUsers from "../../store/useUsers";
 import styles from "./form.module.scss";
 
 const Form = ({ onClose }) => {
+  const [updateUsers] = useUsers((state) => [state.updateUsers]);
+
   const defaultFormData = {
     name: "",
     email: "",
@@ -28,9 +31,9 @@ const Form = ({ onClose }) => {
 
     if (validate()) {
       // submit the form
-      // And update global state with form data (Needs to be done)
-      // I think, I can not do it in time, since my uncle (Mama) has died. I've to attend his funeral.
 
+      // Update the global users
+      updateUsers(formData);
       // set the state to it's default state
       setFormData(defaultFormData);
       // close the modal

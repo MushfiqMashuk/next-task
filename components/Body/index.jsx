@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import debounce from "../../helpers/debounce";
+import useUsers from "../../store/useUsers";
 import Form from "../Form";
 import Modal from "../Modal";
 import UserCard from "../UserCard";
 import styles from "./body.module.scss";
 
 const Body = () => {
+  const [globalUsers, setGlobalUsers] = useUsers((state) => [
+    state.users,
+    state.setUsers,
+  ]);
+
   const [users, setUsers] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
@@ -14,6 +20,25 @@ const Body = () => {
   const handleChange = (value) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    setUsers(globalUsers);
+  }, [globalUsers]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await fetch(process.env.NEXT_PUBLIC_USERS_API);
+
+      const userData = await data.json();
+
+      // set the user state
+      setGlobalUsers(userData);
+      setUsers(userData);
+    };
+
+    // fetching users data from the provided url
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     setFilteredUsers(
@@ -26,20 +51,6 @@ const Body = () => {
   }, [searchValue]);
 
   const optimizedFn = useCallback(debounce(handleChange), []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const data = await fetch(process.env.NEXT_PUBLIC_USERS_API);
-
-      const userData = await data.json();
-
-      // set the user state
-      setUsers(userData);
-    };
-
-    // fetching users data from the provided url
-    fetchUser();
-  }, []);
 
   return (
     <div className={styles.container}>
