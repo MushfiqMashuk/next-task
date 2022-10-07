@@ -17,7 +17,8 @@ const Body = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleChange = (value) => {
     setSearchValue(value);
@@ -34,7 +35,10 @@ const Body = () => {
         // set the global user state
         setGlobalUsers(data);
         setLoading(false);
+        setError(false);
       } catch (err) {
+        setLoading(false);
+        setError(true);
         console.log(err);
       }
     };
@@ -75,12 +79,13 @@ const Body = () => {
       </div>
       <div className={styles.content}>
         {loading && <LoadingSpinner />}
+        {error && <div>Oops! Some Error Has Occurred</div>}
         {showModal && (
           <Modal title="Add new member" onClose={() => setShowModal(false)}>
             <Form onClose={() => setShowModal(false)} />
           </Modal>
         )}
-        {!loading && searchValue
+        {!error && !loading && searchValue
           ? filteredUsers &&
             filteredUsers.length > 0 &&
             filteredUsers.map((user) => (
@@ -93,7 +98,8 @@ const Body = () => {
                 key={user.id ? user.id : Math.random(Date.now())}
               />
             ))
-          : !loading &&
+          : !error &&
+            !loading &&
             globalUsers &&
             globalUsers.length > 0 &&
             globalUsers.map((user) => (
