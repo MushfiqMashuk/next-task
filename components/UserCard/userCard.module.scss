@@ -14,7 +14,7 @@
 
   .card_content {
     flex: 1;
-    display: flex;
+    @include center_element;
     flex-direction: column;
     word-break: break-word;
     padding: 0 2rem 2rem 2rem;

@@ -27,6 +27,7 @@ const Form = ({ onClose }) => {
   };
 
   const handleSubmit = (e) => {
+    // preventing the default behaviour (reloading) of the form
     e.preventDefault();
 
     if (validate()) {
@@ -34,7 +35,7 @@ const Form = ({ onClose }) => {
 
       // Update the global users
       updateUsers(formData);
-      // set the state to it's default state
+      // set the form data to it's default state
       setFormData(defaultFormData);
       // close the modal
       onClose();
@@ -63,7 +64,6 @@ const Form = ({ onClose }) => {
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <p className={styles.form_label}>Name</p>
-
         <input
           type="text"
           name="name"
@@ -75,7 +75,6 @@ const Form = ({ onClose }) => {
         />
         <br />
         <p className={styles.form_label}>E-mail</p>
-
         <input
           type="email"
           name="email"
@@ -90,7 +89,6 @@ const Form = ({ onClose }) => {
           <p className={styles.error_message}>{formData.emailError}</p>
         )}
         <p className={styles.form_label}>Phone</p>
-
         <input
           type="tel"
           name="phone"
